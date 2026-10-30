@@ -1,0 +1,339 @@
+<title>Lumora Red Light</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: dark clinical stage; one glowing LED panel as the hero object, sections on a 1120px measure, spectrum ruler as the signature detail */
+:root{
+  --bg:#f6f2ef; --surface:#fffdfb; --ink:#1d1614; --muted:#6b5d58; --line:#e4dad5;
+  --red:#c8261d; --red-soft:#f3d9d5; --nir:#c25a12; --glow:rgba(229,53,43,.35);
+  --led-off:#d9cbc6; --panel:#2a1f1c;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#120d0c; --surface:#1b1412; --ink:#f3ebe7; --muted:#a8968f; --line:#2e2421;
+  --red:#ff4a3d; --red-soft:#3a1714; --nir:#ff9a52; --glow:rgba(255,60,45,.45);
+  --led-off:#3a2c28; --panel:#0b0807; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#120d0c; --surface:#1b1412; --ink:#f3ebe7; --muted:#a8968f; --line:#2e2421;
+  --red:#ff4a3d; --red-soft:#3a1714; --nir:#ff9a52; --glow:rgba(255,60,45,.45);
+  --led-off:#3a2c28; --panel:#0b0807; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-weight:500;line-height:1.1;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.4rem,6vw,4.4rem);letter-spacing:-.02em}
+h2{font-size:clamp(1.8rem,3.6vw,2.6rem);letter-spacing:-.01em}
+h3{font-size:1.25rem}
+p{margin:0}
+.eyebrow{font:500 .75rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.lede{color:var(--muted);font-size:1.125rem;max-width:56ch}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:4px}
+section{padding-block:clamp(56px,9vw,104px);border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:14px;margin-bottom:40px;max-width:64ch}
+
+/* nav */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px))}
+nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{display:flex;align-items:center;gap:10px;font:600 1.05rem var(--display);text-decoration:none}
+.logo i{width:14px;height:14px;border-radius:50%;background:var(--red);box-shadow:0 0 14px 3px var(--glow)}
+.navlinks{display:flex;gap:24px;font-size:.9rem;color:var(--muted)}
+.navlinks a{text-decoration:none}.navlinks a:hover{color:var(--ink)}
+@media(max-width:760px){.navlinks{display:none}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:600 .95rem var(--body);padding:14px 22px;border-radius:999px;text-decoration:none;transition:transform .15s,box-shadow .2s}
+.btn-primary{background:var(--red);color:#fff;box-shadow:0 8px 28px -8px var(--glow)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 34px -6px var(--glow)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn-sm{padding:10px 16px;font-size:.85rem}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding-block:clamp(48px,8vw,96px);border:0}
+.hero>div{min-width:0;display:grid;gap:24px;align-content:start}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px 20px;font:400 .8rem var(--mono);color:var(--muted)}
+.hero-meta span::before{content:"●";color:var(--red);margin-right:6px}
+@media(max-width:880px){.hero{grid-template-columns:1fr;gap:40px}}
+
+/* LED panel */
+.stage{position:relative;aspect-ratio:4/5;max-width:100%;border-radius:28px;background:radial-gradient(120% 90% at 50% 40%,var(--red-soft),transparent 70%);display:grid;place-items:center}
+.panel{width:72%;aspect-ratio:3/5;background:var(--panel);border-radius:18px;padding:7%;display:grid;grid-template-columns:repeat(6,1fr);gap:6%;align-content:space-between;
+  box-shadow:0 0 0 1px rgba(255,255,255,.06) inset,0 40px 80px -20px var(--glow),0 0 120px 10px var(--glow)}
+.led{aspect-ratio:1;border-radius:50%;background:var(--led-off);transition:background .4s,box-shadow .4s}
+.panel.on .led.r{background:radial-gradient(circle at 40% 35%,#ffd2c8,#ff3b2b 45%,#9e130b);box-shadow:0 0 10px 2px rgba(255,59,43,.7)}
+.panel.on .led.n{background:radial-gradient(circle at 40% 35%,#5a2a22,#2b1310 60%);box-shadow:0 0 6px 1px rgba(255,140,80,.25)}
+.stage-tag{position:absolute;font:500 .72rem var(--mono);background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:8px 12px;border-radius:10px;box-shadow:0 10px 30px -12px rgba(0,0,0,.3)}
+.stage-tag b{color:var(--red);font-weight:500}
+.t1{top:14%;left:2%}.t2{bottom:16%;right:2%}
+.toggle{position:absolute;bottom:4%;left:50%;transform:translateX(-50%)}
+@media(prefers-reduced-motion:no-preference){.panel.on{animation:breathe 4s ease-in-out infinite}}
+@keyframes breathe{50%{box-shadow:0 0 0 1px rgba(255,255,255,.06) inset,0 40px 90px -16px var(--glow),0 0 160px 24px var(--glow)}}
+
+/* specs strip */
+.specs{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:20px;background:var(--surface)}
+.spec{padding:24px;display:grid;gap:6px;min-width:0}
+.spec+.spec{border-left:1px solid var(--line)}
+.spec strong{font:500 clamp(1.6rem,3vw,2.1rem)/1 var(--display);font-variant-numeric:tabular-nums}
+.spec span{color:var(--muted);font-size:.875rem}
+@media(max-width:760px){.specs{grid-template-columns:1fr 1fr}.spec:nth-child(3){border-left:0}.spec:nth-child(n+3){border-top:1px solid var(--line)}}
+
+/* spectrum */
+.spectrum{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px;overflow-x:auto}
+.spectrum svg{display:block;min-width:620px;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:20px;margin-top:16px;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:middle}
+.depth{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+.depth>div{min-width:0}
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden;margin-block:10px 6px}
+.bar i{display:block;height:100%;border-radius:99px}
+.small{font-size:.85rem;color:var(--muted)}
+@media(max-width:640px){.depth{grid-template-columns:1fr}}
+
+/* benefits */
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.benefit{display:grid;gap:10px;align-content:start;min-width:0}
+.benefit .nm{font:500 .8rem var(--mono);color:var(--red)}
+@media(max-width:900px){.benefits{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.benefits{grid-template-columns:1fr}}
+
+/* products */
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.product{border:1px solid var(--line);border-radius:20px;padding:28px;display:grid;gap:18px;background:var(--surface);min-width:0;align-content:start}
+.product.feat{border-color:var(--red);box-shadow:0 20px 50px -28px var(--glow)}
+.mini{height:120px;display:grid;place-items:center;background:radial-gradient(60% 80% at 50% 50%,var(--red-soft),transparent);border-radius:14px}
+.mini b{display:block;background:var(--panel);border-radius:6px;box-shadow:0 0 30px 4px var(--glow);
+  background-image:radial-gradient(circle,#ff3b2b 30%,transparent 34%);background-size:10px 10px}
+.product dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:0;font-size:.875rem}
+.product dt{color:var(--muted)}.product dd{margin:0;text-align:right;font-family:var(--mono);font-size:.8rem}
+.price{font:500 1.6rem var(--display)}.ph{font:500 .7rem var(--mono);color:var(--nir);border:1px dashed var(--nir);padding:2px 6px;border-radius:6px;vertical-align:middle;margin-left:8px}
+.badge{justify-self:start;font:500 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;background:var(--red);color:#fff;padding:5px 10px;border-radius:99px}
+@media(max-width:900px){.products{grid-template-columns:1fr}}
+
+/* how-to steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
+.step{display:grid;gap:10px;min-width:0}
+.step::before{counter-increment:s;content:"Step " counter(s);font:500 .75rem var(--mono);color:var(--red);letter-spacing:.1em;text-transform:uppercase}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
+
+/* faq */
+.faq{display:grid;gap:0;max-width:780px}
+details{border-bottom:1px solid var(--line);padding-block:18px}
+summary{cursor:pointer;font:500 1.1rem var(--display);list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--red);font-family:var(--mono)}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:10px;max-width:64ch}
+
+/* lead form */
+.lead{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+.lead>div{min-width:0;display:grid;gap:20px}
+.contact{display:grid;gap:14px;font-size:.95rem}
+.contact div{display:grid;gap:2px}.contact span{font:500 .72rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+form{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,4vw,36px);display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f{display:grid;gap:6px;min-width:0}.f.full{grid-column:1/-1}
+label{font-size:.85rem;font-weight:500}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-soft)}
+[aria-invalid="true"]{border-color:var(--red)}
+.err{font-size:.78rem;color:var(--red);min-height:1em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips input{position:absolute;opacity:0;width:1px;height:1px}
+.chips label{border:1px solid var(--line);padding:8px 14px;border-radius:99px;cursor:pointer;font-weight:400}
+.chips input:checked+label{background:var(--red);border-color:var(--red);color:#fff}
+.chips input:focus-visible+label{outline:3px solid var(--red);outline-offset:2px}
+.note{grid-column:1/-1;font-size:.78rem;color:var(--muted)}
+.ok{grid-column:1/-1;display:grid;gap:10px;text-align:center;padding-block:40px}
+.ok .dot{width:56px;height:56px;border-radius:50%;margin:0 auto;background:var(--red);box-shadow:0 0 40px 8px var(--glow);display:grid;place-items:center;color:#fff;font-size:1.5rem}
+@media(max-width:880px){.lead{grid-template-columns:1fr}}
+@media(max-width:520px){form{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);padding-block:32px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:.85rem;color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header><nav aria-label="Main">
+  <a class="logo" href="#top"><i aria-hidden="true"></i>Lumora Light Co.</a>
+  <div class="navlinks"><a href="#science">Science</a><a href="#panels">Panels</a><a href="#faq">FAQ</a></div>
+  <a class="btn btn-primary btn-sm" href="#quote">Get a quote</a>
+</nav></header>
+
+<main id="top">
+<section class="hero">
+  <div>
+    <p class="eyebrow">Dual-wavelength LED therapy · 660 nm + 850 nm</p>
+    <h1>Clinical-grade red light, built for your home, gym or clinic.</h1>
+    <p class="lede">Lumora panels combine visible red and near-infrared LEDs in one flicker-free unit. Ten to twenty minutes a session, with no heat, no UV and no downtime.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#quote">Request a quote</a>
+      <a class="btn btn-ghost" href="#science">See how it works</a>
+    </div>
+    <div class="hero-meta"><span>Zero UV output</span><span>Flicker-free driver</span><span>Modular mounting</span></div>
+  </div>
+  <div>
+    <div class="stage">
+      <div class="panel on" id="panel" aria-label="Illustration of a Lumora LED panel"></div>
+      <div class="stage-tag t1"><b>660 nm</b> red · skin surface</div>
+      <div class="stage-tag t2"><b>850 nm</b> NIR · deeper tissue</div>
+      <button class="btn btn-ghost btn-sm toggle" id="toggle" type="button" aria-pressed="true" style="background:var(--surface)">Turn panel off</button>
+    </div>
+  </div>
+</section>
+
+<div class="specs" role="list">
+  <div class="spec" role="listitem"><strong>660 / 850</strong><span>nm wavelengths, red + NIR</span></div>
+  <div class="spec" role="listitem"><strong>[100]</strong><span>mW/cm² at 15 cm <em>(spec placeholder)</em></span></div>
+  <div class="spec" role="listitem"><strong>10–20</strong><span>minutes per session</span></div>
+  <div class="spec" role="listitem"><strong>[3 yr]</strong><span>warranty <em>(placeholder)</em></span></div>
+</div>
+
+<section id="science">
+  <div class="sec-head">
+    <p class="eyebrow">The science</p>
+    <h2>Two wavelengths, two depths.</h2>
+    <p class="lede">Photobiomodulation uses specific red and near-infrared wavelengths that fall inside the "optical window", where skin absorbs and scatters less light. Researchers link the effect to cytochrome c oxidase in the mitochondria.</p>
+  </div>
+  <div class="spectrum">
+    <svg viewBox="0 0 640 170" role="img" aria-label="Wavelength ruler from 600 to 900 nanometres with Lumora bands at 660 and 850 nanometres">
+      <defs><linearGradient id="sp" x1="0" x2="1"><stop offset="0" stop-color="#ff6a2b"/><stop offset=".2" stop-color="#e5352b"/><stop offset=".45" stop-color="#8e1a14"/><stop offset="1" stop-color="#2a0d0a"/></linearGradient></defs>
+      <!-- scale: x = 20 + (nm-600)*2 -->
+      <rect x="20" y="60" width="600" height="34" rx="6" fill="url(#sp)"/>
+      <rect x="20" y="60" width="160" height="34" rx="6" fill="none" stroke="var(--muted)" stroke-dasharray="3 4" opacity="0"/>
+      <g fill="var(--muted)" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle">
+        <text x="20" y="118">600</text><text x="120" y="118">650</text><text x="220" y="118">700</text><text x="320" y="118">750</text><text x="420" y="118">800</text><text x="520" y="118">850</text><text x="620" y="118">900 nm</text>
+      </g>
+      <g stroke="var(--muted)"><line x1="20" y1="96" x2="20" y2="104"/><line x1="120" y1="96" x2="120" y2="104"/><line x1="220" y1="96" x2="220" y2="104"/><line x1="320" y1="96" x2="320" y2="104"/><line x1="420" y1="96" x2="420" y2="104"/><line x1="520" y1="96" x2="520" y2="104"/><line x1="620" y1="96" x2="620" y2="104"/></g>
+      <!-- visible / invisible divide ~700nm -->
+      <line x1="220" y1="40" x2="220" y2="140" stroke="var(--muted)" stroke-dasharray="2 4"/>
+      <text x="214" y="150" text-anchor="end" fill="var(--muted)" font-family="Inter,sans-serif" font-size="11">visible red</text>
+      <text x="226" y="150" fill="var(--muted)" font-family="Inter,sans-serif" font-size="11">invisible near-infrared</text>
+      <g font-family="JetBrains Mono,monospace" font-size="12" text-anchor="middle">
+        <rect x="132" y="52" width="16" height="50" rx="4" fill="none" stroke="var(--ink)" stroke-width="2"/>
+        <text x="140" y="38" fill="var(--ink)">660 nm</text>
+        <rect x="512" y="52" width="16" height="50" rx="4" fill="none" stroke="var(--ink)" stroke-width="2"/>
+        <text x="520" y="38" fill="var(--ink)">850 nm</text>
+      </g>
+    </svg>
+    <div class="depth">
+      <div><strong>660 nm, red</strong><div class="bar"><i style="width:30%;background:var(--red)"></i></div><p class="small">Absorbed near the surface. Commonly studied for skin tone, texture and fine lines.</p></div>
+      <div><strong>850 nm, near-infrared</strong><div class="bar"><i style="width:80%;background:var(--nir)"></i></div><p class="small">Travels further into tissue. Commonly studied for muscle recovery and joint comfort.</p></div>
+    </div>
+    <p class="small" style="margin-top:16px">Bars show relative depth, not measured millimetres. Reference: Hamblin MR, "Mechanisms and applications of the anti-inflammatory effects of photobiomodulation," <em>AIMS Biophysics</em>, 2017.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><p class="eyebrow">What people use it for</p><h2>One panel, four routines.</h2></div>
+  <div class="benefits">
+    <div class="benefit"><p class="nm">660 nm</p><h3>Skin</h3><p class="small">A controlled trial of 136 volunteers reported improved skin complexion and feeling after twice-weekly sessions (Wunsch &amp; Matuschka, <em>Photomed Laser Surg</em>, 2014).</p></div>
+    <div class="benefit"><p class="nm">850 nm</p><h3>Recovery</h3><p class="small">Used before or after training by athletes to support muscle performance and recovery between sessions.</p></div>
+    <div class="benefit"><p class="nm">660 + 850</p><h3>Joints</h3><p class="small">Near-infrared reaches deeper tissue, which is why it features in research on joint comfort.</p></div>
+    <div class="benefit"><p class="nm">Evening</p><h3>Wind-down</h3><p class="small">Warm, blue-free light suits an evening routine, unlike bright white screens.</p></div>
+  </div>
+  <p class="small" style="margin-top:28px">These descriptions are not medical claims. Talk to your doctor if you have a medical condition.</p>
+</section>
+
+<section id="panels">
+  <div class="sec-head"><p class="eyebrow">Panels</p><h2>Pick the size that fits your space.</h2><p class="lede">Every model uses the same LEDs and driver. Larger panels cover more of the body in one session.</p></div>
+  <div class="products">
+    <article class="product">
+      <div class="mini"><b style="width:70px;height:90px"></b></div>
+      <h3>Lumora Mini</h3><p class="small">Face, neck and spot treatment. Sits on a desk stand.</p>
+      <dl><dt>LEDs</dt><dd>[60]</dd><dt>Size</dt><dd>[30 × 22 cm]</dd><dt>Coverage</dt><dd>Face / spot</dd></dl>
+      <p class="price">$[—]<span class="ph">PRICE TBD</span></p>
+      <a class="btn btn-ghost" href="#quote" data-model="Mini">Get a quote</a>
+    </article>
+    <article class="product feat">
+      <span class="badge">Most requested</span>
+      <div class="mini"><b style="width:70px;height:110px"></b></div>
+      <h3>Lumora Half</h3><p class="small">Upper or lower body. Door mount or floor stand.</p>
+      <dl><dt>LEDs</dt><dd>[180]</dd><dt>Size</dt><dd>[90 × 30 cm]</dd><dt>Coverage</dt><dd>Half body</dd></dl>
+      <p class="price">$[—]<span class="ph">PRICE TBD</span></p>
+      <a class="btn btn-primary" href="#quote" data-model="Half">Get a quote</a>
+    </article>
+    <article class="product">
+      <div class="mini"><b style="width:56px;height:118px"></b></div>
+      <h3>Lumora Full</h3><p class="small">Head-to-toe sessions for clinics, gyms and studios.</p>
+      <dl><dt>LEDs</dt><dd>[360]</dd><dt>Size</dt><dd>[180 × 45 cm]</dd><dt>Coverage</dt><dd>Full body</dd></dl>
+      <p class="price">$[—]<span class="ph">PRICE TBD</span></p>
+      <a class="btn btn-ghost" href="#quote" data-model="Full">Get a quote</a>
+    </article>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><p class="eyebrow">A session</p><h2>Simple enough to do every day.</h2></div>
+  <div class="steps">
+    <div class="step"><h3>Stand 15–30 cm away</h3><p class="small">Bare skin facing the panel. Closer means more light per square centimetre.</p></div>
+    <div class="step"><h3>Run 10–20 minutes</h3><p class="small">Set the built-in timer. The panel switches off on its own.</p></div>
+    <div class="step"><h3>Repeat 3–5 times a week</h3><p class="small">Consistency matters more than session length for most routines.</p></div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="sec-head"><p class="eyebrow">FAQ</p><h2>Common questions.</h2></div>
+  <div class="faq">
+    <details><summary>Is it safe for my eyes?</summary><p>The LEDs emit no UV. Red light is very bright, so we include protective goggles and recommend you don't look directly into the panel.</p></details>
+    <details><summary>Will it tan or burn my skin?</summary><p>No. Red and near-infrared light don't contain UV, so they don't tan or burn. The panel stays warm to the touch, not hot.</p></details>
+    <details><summary>Why can I barely see the 850 nm LEDs?</summary><p>Near-infrared is outside human vision. Those LEDs glow faintly but are working at full output.</p></details>
+    <details><summary>Do you supply clinics and gyms?</summary><p>Yes. Use the form below and choose "Clinic" or "Gym" for volume pricing and mounting options.</p></details>
+  </div>
+</section>
+
+<section id="quote" class="lead">
+  <div>
+    <p class="eyebrow">Get a quote</p>
+    <h2>Tell us about your space.</h2>
+    <p class="lede">A product specialist replies within one business day with sizing advice and pricing.</p>
+    <div class="contact">
+      <div><span>Company</span>Lumora Light Co. <em class="small">(demo company)</em></div>
+      <div><span>Email</span>hello@lumoralight.example</div>
+      <div><span>Phone</span>+1 (555) 014-2290</div>
+      <div><span>Showroom</span>120 Example Ave, Austin, TX 78701</div>
+    </div>
+  </div>
+  <form id="form" novalidate>
+    <div class="f"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" required><p class="err" id="name-err"></p></div>
+    <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required><p class="err" id="email-err"></p></div>
+    <div class="f"><label for="phone">Phone <span class="small">(optional)</span></label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
+    <div class="f"><label for="model">Panel</label><select id="model" name="model"><option>Not sure yet</option><option>Mini</option><option>Half</option><option>Full</option></select></div>
+    <fieldset class="f full" style="border:0;padding:0;margin:0"><legend style="font-size:.85rem;font-weight:500;margin-bottom:6px">Where will you use it?</legend>
+      <div class="chips">
+        <input type="radio" name="use" id="u-home" value="Home" checked><label for="u-home">Home</label>
+        <input type="radio" name="use" id="u-clinic" value="Clinic"><label for="u-clinic">Clinic</label>
+        <input type="radio" name="use" id="u-gym" value="Gym"><label for="u-gym">Gym / studio</label>
+        <input type="radio" name="use" id="u-spa" value="Spa"><label for="u-spa">Spa / salon</label>
+      </div></fieldset>
+    <div class="f full"><label for="msg">Anything else? <span class="small">(optional)</span></label><textarea id="msg" name="msg" rows="3" placeholder="Room size, number of panels, goals"></textarea></div>
+    <div class="f full"><button class="btn btn-primary" type="submit">Request my quote</button></div>
+    <p class="note">Demo form: nothing is sent or stored.</p>
+  </form>
+</section>
+</main>
+
+<footer>
+  <span>© 2026 Lumora Light Co. · Demo company for illustration</span>
+  <span>Not intended to diagnose or treat any disease.</span>
+</footer>
+</div>
+
+<script>
+const panel=document.getElementById('panel');
+for(let i=0;i<60;i++){const d=document.createElement('i');d.className='led '+((Math.floor(i/6)+i)%2?'n':'r');panel.appendChild(d)}
+const t=document.getElementById('toggle');
+t.addEventListener('click',()=>{const on=panel.classList.toggle('on');t.setAttribute('aria-pressed',on);t.textContent=on?'Turn panel off':'Turn panel on'});
+document.querySelectorAll('[data-model]').forEach(a=>a.addEventListener('click',()=>{document.getElementById('model').value=a.dataset.model}));
+const f=document.getElementById('form');
+function check(id,ok,msg){const el=document.getElementById(id);el.setAttribute('aria-invalid',!ok);document.getElementById(id+'-err').textContent=ok?'':msg;return ok}
+f.addEventListener('submit',e=>{e.preventDefault();
+  const n=check('name',f.name.value.trim().length>1,'Enter your name.');
+  const m=check('email',/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value),'Enter an email like name@company.com.');
+  if(!n){f.name.focus();return} if(!m){f.email.focus();return}
+  const first=f.name.value.trim().split(' ')[0];
+  f.innerHTML='<div class="ok" role="status"><div class="dot">✓</div><h3>Thanks, '+first.replace(/[<>&]/g,'')+'.</h3><p class="small">This is a demo, so no request was sent. On the live site, a specialist would reply within one business day.</p></div>';
+});
+</script>
