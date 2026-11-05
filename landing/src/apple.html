@@ -1,0 +1,221 @@
+<title>Lumora Pro</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Flavour: apple-design-skill (Apple HIG). Principles applied: clarity and deference (content leads, chrome recedes),
+   system typography with Dynamic-Type-like scale, 44pt minimum hit targets, color used for meaning and one tint,
+   materials (translucent nav bar), segmented controls for mutually exclusive choices, grouped inset form lists.
+   Layout: product-page cadence, alternating full-bleed tiles, the product as hero. */
+:root{
+  --bg:#ffffff; --bg-2:#f5f5f7; --label:#1d1d1f; --label-2:#6e6e73; --sep:#d2d2d7; --tint:#e3342a; --on-tint:#ffffff;
+  --fill:rgba(118,118,128,.12); --stage:#000000; --stage-label:#f5f5f7; --stage-2:#86868b; --mat:rgba(255,255,255,.72);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000000;--bg-2:#161617;--label:#f5f5f7;--label-2:#a1a1a6;--sep:#3a3a3c;--tint:#ff453a;--on-tint:#ffffff;--fill:rgba(118,118,128,.24);--stage:#000000;--stage-label:#f5f5f7;--stage-2:#86868b;--mat:rgba(22,22,23,.72);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#000000;--bg-2:#161617;--label:#f5f5f7;--label-2:#a1a1a6;--sep:#3a3a3c;--tint:#ff453a;--on-tint:#ffffff;--fill:rgba(118,118,128,.24);--stage:#000000;--stage-label:#f5f5f7;--stage-2:#86868b;--mat:rgba(22,22,23,.72);color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0}
+body{background:var(--bg);color:var(--label);font:400 17px/1.47 var(--font);letter-spacing:-.022em;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--mat)}
+.g{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.w{max-width:980px;margin:0 auto}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.03em;line-height:1.07;text-wrap:balance}
+h1{font-size:clamp(3rem,9vw,6rem)} h2{font-size:clamp(2.2rem,5.5vw,3.5rem)} h3{font-size:1.5rem;letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--tint);outline-offset:2px;border-radius:8px}
+.c{text-align:center}
+.sub{font-size:clamp(1.15rem,2.2vw,1.6rem);font-weight:500;color:var(--label-2);letter-spacing:-.02em}
+.cta{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;align-items:center}
+.btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0 22px;border-radius:980px;background:var(--tint);color:var(--on-tint);border:0;font:400 1.06rem var(--font);text-decoration:none;cursor:pointer;transition:filter .15s}
+.btn:hover{filter:brightness(1.08)} .btn:active{filter:brightness(.92)}
+.lnk{color:var(--tint);text-decoration:none;font-size:1.06rem;min-height:44px;display:inline-flex;align-items:center}
+.lnk:hover{text-decoration:underline}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--mat);backdrop-filter:saturate(1.8) blur(20px);-webkit-backdrop-filter:saturate(1.8) blur(20px);border-bottom:1px solid color-mix(in srgb,var(--sep) 60%,transparent)}
+.bar-in{display:flex;align-items:center;justify-content:space-between;height:52px;gap:12px}
+.bar b{font-size:1.3rem;font-weight:600}
+.bar nav{display:flex;align-items:center;gap:20px;font-size:.8rem;color:var(--label-2)}
+.bar nav a{text-decoration:none;min-height:44px;display:none;align-items:center}
+.bar nav a:hover{color:var(--label)}
+.bar .btn{min-height:32px;padding:0 14px;font-size:.8rem}
+@media(min-width:700px){.bar nav a{display:inline-flex}}
+
+.stage{background:var(--stage);color:var(--stage-label);overflow:hidden}
+.hero{padding-block:72px 0;display:grid;gap:18px;justify-items:center}
+.hero .eyebrow{color:var(--tint);font-size:1.3rem;font-weight:600}
+.hero .sub{color:var(--stage-2)}
+.hero .lnk{color:#2997ff}
+.product{margin-top:40px;width:min(440px,84vw);aspect-ratio:4/5;position:relative;display:grid;place-items:end center}
+.product::before{content:"";position:absolute;inset:6% -30% -10%;background:radial-gradient(closest-side,rgba(255,50,30,.55),transparent);filter:blur(10px)}
+.panel{position:relative;width:62%;aspect-ratio:3/5;border-radius:16px;background:linear-gradient(160deg,#2c2c2e,#0c0c0d);border:1px solid #3a3a3c;padding:14px;display:grid;grid-template-columns:repeat(6,1fr);gap:7px;align-content:space-between;margin-bottom:6%}
+.panel i{aspect-ratio:1;border-radius:50%;background:#3a3a3c;transition:background .4s,box-shadow .4s}
+.on-red .panel i.r,.on-both .panel i.r{background:radial-gradient(circle at 40% 35%,#ffe1da,#ff3b30 45%,#8f0f08);box-shadow:0 0 12px 2px rgba(255,59,48,.8)}
+.on-nir .panel i.n,.on-both .panel i.n{background:radial-gradient(circle at 40% 35%,#5a2f28,#2a1310);box-shadow:0 0 8px 1px rgba(255,150,90,.3)}
+.seg{display:inline-grid;grid-auto-flow:column;padding:2px;border-radius:9px;background:rgba(118,118,128,.24);margin-block:28px 64px}
+.seg button{min-height:44px;min-width:76px;padding:0 14px;border:0;border-radius:7px;background:transparent;color:var(--stage-label);font:500 .85rem var(--font);cursor:pointer}
+.seg button[aria-checked="true"]{background:#636366;box-shadow:0 3px 8px rgba(0,0,0,.25)}
+
+.sec{padding-block:96px}
+.tiles{display:grid;gap:12px}
+.tile{background:var(--bg-2);border-radius:28px;padding:44px 32px;display:grid;gap:12px;align-content:start;min-height:300px;position:relative;overflow:hidden}
+.tile .big{font-size:clamp(3.4rem,8vw,5rem);font-weight:600;letter-spacing:-.04em;line-height:1;background:linear-gradient(90deg,var(--tint),#ff9f0a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tile p{color:var(--label-2);font-size:1.06rem;max-width:40ch}
+.tile .src{font-size:.78rem;color:var(--label-2);margin-top:auto}
+@media(min-width:760px){.tiles{grid-template-columns:1fr 1fr}.tile.wide{grid-column:span 2}}
+
+.depth{display:grid;gap:12px;margin-top:48px}
+.dbar{display:grid;gap:10px;background:var(--bg-2);border-radius:20px;padding:24px}
+.dbar .t{height:8px;border-radius:99px;background:var(--fill);overflow:hidden}
+.dbar .t i{display:block;height:100%;border-radius:99px}
+.dbar .h{display:flex;justify-content:space-between;gap:12px;font-weight:600}
+.dbar .h span{color:var(--label-2);font-weight:400}
+
+.models{display:grid;gap:12px;margin-top:48px}
+.model{border-radius:28px;background:var(--bg-2);padding:36px 28px;display:grid;gap:16px;justify-items:center;text-align:center}
+.model .pic{height:150px;display:grid;place-items:end center}
+.model .pic i{display:block;background:#1c1c1e;border-radius:6px;box-shadow:0 0 30px rgba(255,59,48,.45);background-image:radial-gradient(circle,#ff3b30 32%,transparent 36%);background-size:9px 9px}
+.model .new{color:#ff9f0a;font-size:.8rem;font-weight:600;min-height:1.2em}
+.model ul{list-style:none;margin:0;padding:16px 0 0;border-top:1px solid var(--sep);display:grid;gap:10px;width:100%;font-size:.9rem;color:var(--label-2)}
+.model .price{font-size:1.06rem}
+@media(min-width:760px){.models{grid-template-columns:repeat(3,1fr)}}
+
+.faq{max-width:740px;margin:48px auto 0;border-top:1px solid var(--sep)}
+details{border-bottom:1px solid var(--sep)}
+summary{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;font-size:1.2rem;font-weight:600;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary svg{flex:none;transition:transform .25s;color:var(--label-2)}
+details[open] summary svg{transform:rotate(180deg)}
+details p{padding-bottom:20px;color:var(--label-2)}
+
+.form-wrap{display:grid;gap:40px;margin-top:48px}
+.group{background:var(--bg-2);border-radius:14px;overflow:hidden}
+.group-title{font-size:.8rem;color:var(--label-2);text-transform:uppercase;letter-spacing:.02em;padding:0 16px 8px}
+.cell{display:grid;grid-template-columns:110px 1fr;align-items:center;gap:12px;min-height:50px;padding:0 16px;border-bottom:1px solid var(--sep)}
+.cell:last-child{border-bottom:0}
+.cell label{font-size:1rem}
+.cell input,.cell textarea{font:inherit;color:var(--label);background:transparent;border:0;min-height:48px;width:100%;padding:12px 0}
+.cell textarea{resize:vertical}
+.cell input:focus,.cell textarea:focus{outline:none}
+.cell:focus-within{box-shadow:inset 0 0 0 2px var(--tint)}
+.cell[data-bad="true"]{box-shadow:inset 0 0 0 2px var(--tint)}
+.footnote{font-size:.8rem;color:var(--label-2);padding:8px 16px 0}
+.footnote.err{color:var(--tint)}
+.seg2{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:2px;border-radius:9px;background:var(--fill)}
+.seg2 input{position:absolute;opacity:0;width:1px;height:1px}
+.seg2 label{min-height:40px;display:grid;place-items:center;border-radius:7px;font-size:.85rem;font-weight:500;cursor:pointer}
+.seg2 input:checked+label{background:var(--bg);box-shadow:0 3px 8px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04)}
+.seg2 input:focus-visible+label{outline:3px solid var(--tint);outline-offset:1px}
+.contact{display:grid;gap:4px;font-size:.95rem;color:var(--label-2)}
+.contact b{color:var(--label);font-weight:600}
+@media(min-width:820px){.form-wrap{grid-template-columns:1fr 1.4fr}}
+.done{text-align:center;display:grid;gap:10px;justify-items:center;padding:40px 16px;background:var(--bg-2);border-radius:14px}
+footer{background:var(--bg-2);font-size:.75rem;color:var(--label-2);padding-block:24px}
+footer .w{display:grid;gap:8px;border-top:1px solid var(--sep);padding-top:16px}
+</style>
+
+<div class="bar g"><div class="w bar-in"><b>Lumora Pro</b><nav aria-label="Main"><a href="#overview">Overview</a><a href="#science">Science</a><a href="#models">Models</a><a href="#faq">FAQ</a><a class="btn" href="#quote">Get a quote</a></nav></div></div>
+
+<main id="top">
+<div class="stage g on-both" id="stage">
+  <section class="w hero c" id="overview">
+    <p class="eyebrow">Lumora Pro</p>
+    <h1>Light, perfected.</h1>
+    <p class="sub">660 nm red. 850 nm near-infrared. One panel.</p>
+    <div class="cta"><a class="btn" href="#quote">Get a quote</a><a class="lnk" href="#science">Learn more ›</a></div>
+    <div class="product"><div class="panel" id="panel" role="img" aria-label="Lumora Pro panel, red and near-infrared on"></div></div>
+    <div class="seg" role="radiogroup" aria-label="Light mode">
+      <button type="button" role="radio" aria-checked="false" data-m="red">Red</button>
+      <button type="button" role="radio" aria-checked="false" data-m="nir">Infrared</button>
+      <button type="button" role="radio" aria-checked="true" data-m="both">Both</button>
+      <button type="button" role="radio" aria-checked="false" data-m="off">Off</button>
+    </div>
+  </section>
+</div>
+
+<section class="sec g" id="science"><div class="w">
+  <div class="c" style="display:grid;gap:16px"><h2>Two wavelengths.<br>Two depths.</h2><p class="sub">Red is absorbed near the surface. Near-infrared travels further into tissue.</p></div>
+  <div class="depth">
+    <div class="dbar"><div class="h">660 nm red<span>Skin surface</span></div><div class="t"><i style="width:32%;background:var(--tint)"></i></div></div>
+    <div class="dbar"><div class="h">850 nm near-infrared<span>Deeper tissue</span></div><div class="t"><i style="width:82%;background:#ff9f0a"></i></div></div>
+    <p class="c" style="font-size:.8rem;color:var(--label-2);margin-top:8px">Relative depth, not to scale. Hamblin MR, AIMS Biophysics, 2017.</p>
+  </div>
+</div></section>
+
+<section class="sec g" style="padding-top:0"><div class="w">
+  <div class="tiles">
+    <article class="tile wide"><h3>Skin</h3><div class="big">136</div><p>volunteers in a controlled trial reported improved skin complexion after twice-weekly red light sessions.</p><p class="src">Wunsch A, Matuschka K. Photomed Laser Surg. 2014.</p></article>
+    <article class="tile"><h3>Recovery</h3><p>Near-infrared is used by athletes before or after training to support muscle recovery.</p></article>
+    <article class="tile"><h3>Zero UV.</h3><div class="big">0</div><p>It won't tan or burn. Goggles are in the box.</p></article>
+  </div>
+  <p class="c" style="font-size:.8rem;color:var(--label-2);margin-top:20px">Not medical claims. Consult your doctor if you have a medical condition.</p>
+</div></section>
+
+<section class="sec g" id="models" style="background:var(--bg-2)"><div class="w">
+  <h2 class="c">Which Lumora is right for you?</h2>
+  <div class="models">
+    <article class="model" style="background:var(--bg)"><div class="pic"><i style="width:64px;height:84px"></i></div><p class="new"></p><h3>Lumora Mini</h3><p style="color:var(--label-2)">Face and spot care.</p><p class="price">From $[TBD]</p><a class="btn" href="#quote" data-q="Mini">Get a quote</a><ul><li>[60] LEDs</li><li>[30 x 22 cm]</li><li>Desk stand</li></ul></article>
+    <article class="model" style="background:var(--bg)"><div class="pic"><i style="width:64px;height:110px"></i></div><p class="new">Most popular</p><h3>Lumora Pro</h3><p style="color:var(--label-2)">Upper or lower body.</p><p class="price">From $[TBD]</p><a class="btn" href="#quote" data-q="Pro">Get a quote</a><ul><li>[180] LEDs</li><li>[90 x 30 cm]</li><li>Door or floor stand</li></ul></article>
+    <article class="model" style="background:var(--bg)"><div class="pic"><i style="width:52px;height:140px"></i></div><p class="new"></p><h3>Lumora Max</h3><p style="color:var(--label-2)">Head to toe, for studios.</p><p class="price">From $[TBD]</p><a class="btn" href="#quote" data-q="Max">Get a quote</a><ul><li>[360] LEDs</li><li>[180 x 45 cm]</li><li>Wall or floor stand</li></ul></article>
+  </div>
+  <p class="c" style="font-size:.8rem;color:var(--label-2);margin-top:20px">Bracketed specs and prices are placeholders.</p>
+</div></section>
+
+<section class="sec g" id="faq"><div class="w">
+  <h2 class="c">Questions? Answers.</h2>
+  <div class="faq">
+    <details><summary>Is it safe for my eyes?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>There's no UV. The light is bright, so goggles are included.</p></details>
+    <details><summary>How long is a session?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>10 to 20 minutes, 3 to 5 times a week. The built-in timer switches it off.</p></details>
+    <details><summary>Why are some LEDs dim?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>850 nm near-infrared is invisible to the eye. Those LEDs glow faintly at full output.</p></details>
+  </div>
+</div></section>
+
+<section class="sec g" id="quote" style="background:var(--bg-2)"><div class="w">
+  <h2 class="c">Get your quote.</h2>
+  <p class="sub c" style="margin-top:12px">A specialist replies within one business day.</p>
+  <div class="form-wrap">
+    <div class="contact">
+      <b>Lumora Light Co.</b><span>Demo company</span><span>hello@lumoralight.example</span><span>+1 (555) 014-2290</span><span>120 Example Ave, Austin, TX 78701</span>
+    </div>
+    <form id="form" novalidate style="display:grid;gap:28px">
+      <div><p class="group-title">Contact</p>
+        <div class="group">
+          <div class="cell" id="c-name"><label for="name">Name</label><input id="name" name="name" autocomplete="name" placeholder="Required" aria-describedby="fn-err"></div>
+          <div class="cell" id="c-email"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" placeholder="Required" aria-describedby="fn-err"></div>
+          <div class="cell"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="Optional"></div>
+        </div><p class="footnote err" id="fn-err" aria-live="polite"></p></div>
+      <div><p class="group-title" id="lm">Model</p>
+        <div class="seg2" role="radiogroup" aria-labelledby="lm">
+          <input type="radio" name="model" id="m1" value="Mini"><label for="m1">Mini</label>
+          <input type="radio" name="model" id="m2" value="Pro" checked><label for="m2">Pro</label>
+          <input type="radio" name="model" id="m3" value="Max"><label for="m3">Max</label></div></div>
+      <div><p class="group-title" id="lu">Setting</p>
+        <div class="seg2" role="radiogroup" aria-labelledby="lu">
+          <input type="radio" name="use" id="u1" value="Home" checked><label for="u1">Home</label>
+          <input type="radio" name="use" id="u2" value="Clinic"><label for="u2">Clinic</label>
+          <input type="radio" name="use" id="u3" value="Gym"><label for="u3">Gym</label>
+          <input type="radio" name="use" id="u4" value="Spa"><label for="u4">Spa</label></div></div>
+      <div><p class="group-title">Notes</p><div class="group"><div class="cell"><label for="msg">Message</label><textarea id="msg" name="msg" rows="2" placeholder="Optional"></textarea></div></div>
+        <p class="footnote">Demo form. Nothing is sent.</p></div>
+      <button class="btn" type="submit" style="justify-self:stretch;min-height:50px;border-radius:12px">Request Quote</button>
+    </form>
+  </div>
+</div></section>
+</main>
+<footer class="g"><div class="w"><span>© 2026 Lumora Light Co. Demo company. Not intended to diagnose or treat any disease.</span><span>Flavour: Apple Design skill (Human Interface Guidelines)</span></div></footer>
+<script>
+const panel=document.getElementById('panel'),stage=document.getElementById('stage');
+for(let i=0;i<60;i++){const d=document.createElement('i');d.className=(Math.floor(i/6)+i)%2?'n':'r';panel.appendChild(d)}
+const segs=[...document.querySelectorAll('.seg button')];
+function setMode(b){segs.forEach(x=>{x.setAttribute('aria-checked',x===b);x.tabIndex=x===b?0:-1});stage.className='stage g on-'+b.dataset.m}
+segs.forEach((b,i)=>{b.addEventListener('click',()=>setMode(b));b.addEventListener('keydown',e=>{const d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(d){const n=segs[(i+d+segs.length)%segs.length];setMode(n);n.focus();e.preventDefault()}})});
+setMode(segs[2]);
+document.querySelectorAll('[data-q]').forEach(a=>a.addEventListener('click',()=>{document.querySelector('input[name=model][value="'+a.dataset.q+'"]').checked=true}));
+const f=document.getElementById('form');
+f.addEventListener('submit',e=>{e.preventDefault();
+ const nOk=f.name.value.trim().length>1,eOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim());
+ document.getElementById('c-name').dataset.bad=!nOk;document.getElementById('c-email').dataset.bad=!eOk;
+ f.name.setAttribute('aria-invalid',!nOk);f.email.setAttribute('aria-invalid',!eOk);
+ document.getElementById('fn-err').textContent=!nOk?'Enter your name.':!eOk?'Enter a valid email address.':'';
+ if(!nOk)return f.name.focus();if(!eOk)return f.email.focus();
+ f.outerHTML='<div class="done" role="status"><h3>Thank you.</h3><p style="color:var(--label-2)">This is a demo, so nothing was sent.</p></div>';});
+</script>
