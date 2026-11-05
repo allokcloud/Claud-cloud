@@ -53,8 +53,8 @@ a{color:var(--link)}
 .cta{display:flex;gap:12px 28px;justify-content:center;flex-wrap:wrap;align-items:center}
 .btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0 22px;border-radius:980px;background:var(--accent);color:var(--on-accent);border:0;font:400 1.0625rem var(--font);text-decoration:none;cursor:pointer;transition:background-color .15s}
 .btn:hover{background:var(--accent-press)} .btn:active{background:var(--accent-press);transform:scale(.98)}
-.btn.sec{background:var(--accent-fill);color:var(--link)}
-.btn.sec:hover,.btn.sec:active{background:color-mix(in srgb,var(--accent-fill),var(--link) 12%)}
+.btn.tinted{background:var(--accent-fill);color:var(--link)}
+.btn.tinted:hover,.btn.tinted:active{background:color-mix(in srgb,var(--accent-fill),var(--link) 12%)}
 .lnk{color:var(--link);text-decoration:none;font-size:1.0625rem;min-height:44px;display:inline-flex;align-items:center}
 .lnk:hover{text-decoration:underline}
 
@@ -109,7 +109,7 @@ a{color:var(--link)}
 .model .desc{color:var(--label-2)}
 .model ul{list-style:none;margin:0;padding:16px 0 0;border-top:1px solid var(--sep);display:grid;gap:10px;width:100%;font-size:.9375rem;color:var(--label-2)}
 .model .price{font-size:1.0625rem}
-.model .btn{height:44px;align-self:center}
+
 .cell.ta{align-items:start}.cell.ta label{padding-top:12px}
 @media(min-width:760px){.models{grid-template-columns:repeat(3,1fr)}}
 
@@ -204,9 +204,9 @@ footer .w{display:grid;gap:8px;border-top:1px solid var(--sep);padding-top:16px}
 <section class="sec g" id="models" style="background:var(--bg-2)" aria-labelledby="h-models"><div class="w">
   <h2 class="c" id="h-models">Which Lumora is right for you?</h2>
   <div class="models">
-    <article class="model"><div class="pic" aria-hidden="true"><i style="width:64px;height:84px"></i></div><p class="new"></p><h3>Lumora Mini</h3><p class="desc">Face and spot care.</p><p class="price">From $[TBD]</p><a class="btn sec" href="#quote" data-q="Mini" aria-label="Get a quote for Lumora Mini">Get a Quote</a><ul><li>[60] LEDs</li><li>[30 x 22 cm]</li><li>Desk stand</li></ul></article>
-    <article class="model"><div class="pic" aria-hidden="true"><i style="width:64px;height:110px"></i></div><p class="new">Most popular</p><h3>Lumora Pro</h3><p class="desc">Upper or lower body.</p><p class="price">From $[TBD]</p><a class="btn sec" href="#quote" data-q="Pro" aria-label="Get a quote for Lumora Pro">Get a Quote</a><ul><li>[180] LEDs</li><li>[90 x 30 cm]</li><li>Door or floor stand</li></ul></article>
-    <article class="model"><div class="pic" aria-hidden="true"><i style="width:52px;height:140px"></i></div><p class="new"></p><h3>Lumora Max</h3><p class="desc">Head to toe, for studios.</p><p class="price">From $[TBD]</p><a class="btn sec" href="#quote" data-q="Max" aria-label="Get a quote for Lumora Max">Get a Quote</a><ul><li>[360] LEDs</li><li>[180 x 45 cm]</li><li>Wall or floor stand</li></ul></article>
+    <article class="model"><div class="pic" aria-hidden="true"><i style="width:64px;height:84px"></i></div><p class="new"></p><h3>Lumora Mini</h3><p class="desc">Face and spot care.</p><p class="price">From $[TBD]</p><a class="btn tinted" href="#quote" data-q="Mini" aria-label="Get a quote for Lumora Mini">Get a Quote</a><ul><li>[60] LEDs</li><li>[30 x 22 cm]</li><li>Desk stand</li></ul></article>
+    <article class="model"><div class="pic" aria-hidden="true"><i style="width:64px;height:110px"></i></div><p class="new">Most popular</p><h3>Lumora Pro</h3><p class="desc">Upper or lower body.</p><p class="price">From $[TBD]</p><a class="btn tinted" href="#quote" data-q="Pro" aria-label="Get a quote for Lumora Pro">Get a Quote</a><ul><li>[180] LEDs</li><li>[90 x 30 cm]</li><li>Door or floor stand</li></ul></article>
+    <article class="model"><div class="pic" aria-hidden="true"><i style="width:52px;height:140px"></i></div><p class="new"></p><h3>Lumora Max</h3><p class="desc">Head to toe, for studios.</p><p class="price">From $[TBD]</p><a class="btn tinted" href="#quote" data-q="Max" aria-label="Get a quote for Lumora Max">Get a Quote</a><ul><li>[360] LEDs</li><li>[180 x 45 cm]</li><li>Wall or floor stand</li></ul></article>
   </div>
   <p class="c note" style="margin-top:20px">Bracketed specs and prices are placeholders.</p>
 </div></section>
